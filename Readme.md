@@ -24,10 +24,19 @@ Main Features:
 * Prometheus collects metrics which are available via the Gateway's API and which are used for auto-scaling.
 * By changing the URL for a function from /function/NAME to /async-function/NAME an invocation can be run in a queue using NATS Streaming. You can also pass an optional callback URL.
 
+## Setting Up OpenFaaS in Kubernetes
+   We need a kubernetes cluster to deploy OpenFaaS, either single node or multinode cluster. Here, we will use minikube; a single node kubernetes cluster.  
+* [Installing OpenFaaS in Minikube](https://github.com/limbuu/serverless-with-openfaas/blob/main/images/MkReadme.md)
 
-## Alternative Ways To Deploy OpenFaaS
+### Other alternative ways to deploy OpenFaaS
 * [Installing OpenFaaS with arkade](https://docs.openfaas.com/deployment/kubernetes/#1-deploy-the-chart-with-arkade-fastest-option)
 * [Installing OpenFaaS with helm](https://docs.openfaas.com/deployment/kubernetes/#2-deploy-the-chart-with-helm)
+
+## Online Course
+* [Introduction to Serverless on Kubernetes on edX](https://www.edx.org/course/introduction-to-serverless-on-kubernetes)
+
+## Workshop
+* [OpenFaaS Workshop](https://github.com/openfaas/workshop)
 
 ## Tutorials
 * [Build Serverless Single App](https://www.openfaas.com/blog/serverless-single-page-app/)
@@ -36,9 +45,6 @@ Main Features:
 * [Trigger OpenFaaS functions with Apache Kafka](https://www.openfaas.com/blog/kafka-connector/)
 * [Build OpenFaaS Cloud in AWS EKS](https://www.openfaas.com/blog/eks-openfaas-cloud-build-guide/)
 * [SetUp OpenFaaS Cloud for Local Development](https://blog.alexellis.io/openfaas-cloud-for-development/)
-
-## Online Course
-* [Introduction to Serverless on Kubernetes on edX](https://www.edx.org/course/introduction-to-serverless-on-kubernetes)
 
 ## Reference Links
 * [OpenFaaS Documentation](https://docs.openfaas.com/)
