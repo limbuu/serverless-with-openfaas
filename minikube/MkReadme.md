@@ -175,12 +175,24 @@ echo -n $PASSWORD | faas-cli login --username admin --password-stdin
 ```
 $ faas-cli list
 ```
+
 ## 5. Test Function
 Deploy some sample functions and then use them to test things out:
 ```
 $ faas-cli deploy -f https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
 ```
 ![alt text](https://github.com/limbuu/serverless-with-openfaas/blob/main/images/test_function.png)
+
+Beside UI, you can invoke functions through terminal using `faas-cli`.
+
+First, show the invocation count and replicas of deployed functions:
+```
+$ faas-cli list
+```
+Second, pick on function that appear as output of `faas-cli list` and invoke it.
+```
+$ faas-cli invoke markdown
+```
 
 ## 6. Monitroing Using Grafana
 
