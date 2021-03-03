@@ -2,8 +2,8 @@
 
 ## Prerequisites 
 ## 1. Install Kubectl 
-'kubectl' is CLI that allows you to run commands against Kubernetes clusters and can be used to deploy applications, inspect and manage cluster resources and view logs.
-Install kubectl following [kubernetes official documentation](https://kubernetes.io/docs/tasks/tools/install-kubectl/). 
+`kubectl` is CLI that allows you to run commands against Kubernetes clusters and can be used to deploy applications, inspect and manage cluster resources and view logs.
+Install kubectl following kubernetes official documentation.`
 
 For MacOS:
 * [kubectl for MacOS](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos)
@@ -18,11 +18,33 @@ Test to ensure the kubectl version you installed is up-to-date:
 ```
 $ kubectl version --client
 ```
-   
-## 2. SetUp a local Kuberenetes Cluster 
+
+## 2. OpenFaaS CLI
+
+Install the OpenFaaS CLI using the official bash script. We will use the `faas-cli` to scaffold new functions, build, deploy and invoke functions. You can find out commands available for the cli with `faas-cli --help`.
+
+With MacOS or Linux run the following in a Terminal:
+
+```sh
+$ curl -sLSf https://cli.openfaas.com | sudo sh
+```
+
+For Windows, run this in *Git Bash*:
+
+```sh
+$ curl -sLSf https://cli.openfaas.com | sh
+```
+
+Test the `faas-cli`. Open a Terminal or Git Bash window and type in:
+
+```sh
+$ faas-cli help
+$ faas-cli version
+```  
+## 3. SetUp a local Kuberenetes Cluster 
 
 ### Install Minikube
-Minikube is single node local Kubernetes. To install minikube to set up local kubernetes cluster, you will need:
+`Minikube` is single node local Kubernetes. To install minikube to set up local kubernetes cluster, you will need:
 * 2 CPUs or more
 * 2 GB of free memory
 * 20 GB of free disk space
@@ -46,7 +68,7 @@ $ minikube version
 ```
 
 ### Install Docker 
-Install docker ce to use as virtualization driver following official docker documentation. 
+Install `docker ce` to use as virtualization driver following official docker documentation. 
 
 For MacOS:
 * [Docker CE for Mac](https://docs.docker.com/docker-for-mac/install/)
@@ -58,7 +80,7 @@ For Linux/Ubuntu:
 * [Docker CE for Linux/Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
 
 Test the docker installation in the terminal:
-```
+```sh
 $ docker help
 $ docker version
 ```
@@ -70,8 +92,8 @@ Create a profile with vitualization driver as docker (can use virtualbox instead
 $ minikube start -p openfaas-profile
 ```
 
-## 3. Deploy OpenFaas 
-OpenFaaS can be installed in three different ways(arkade, helm and yamls), we here will use arkade, a package-manager/marketplace to download/install OpenFaaS.
+## 4. Deploy OpenFaas 
+OpenFaaS can be installed in three different ways(arkade, helm and yamls), we here will use `arkade`, a package-manager/marketplace to download/install OpenFaaS.
 
 ### Install arkade
 
@@ -86,7 +108,7 @@ $ curl -SLsf https://dl.get-arkade.dev/ | sh
 ```
 
 Check to ensure proper arkade version is installed:
-```
+```sh
 $ arkade help
 $ arkade version
 ```
@@ -109,4 +131,47 @@ nats-cdc589ff7-c4bwx                 1/1     Running   0          15s
 prometheus-fd89cf7cd-54b7d           1/1     Running   0          15s
 queue-worker-749c7964f4-p4w2m        1/1     Running   2          15s
 
+```
+### Log into your OpenFaaS gateway
+Check the gateway is ready or not,
+
+```
+$ kubectl rollout status -n openfaas deploy/gateway
+```
+1. If you're using your laptop, a VM, or any other kind of Kubernetes distribution run the following instead:
+```
+$ kubectl port-forward svc/gateway -n openfaas 8080:8080
+```
+
+2. But, If you're using a managed cloud Kubernetes service then get the LoadBalancer's IP address or DNS entry from the EXTERNAL-IP field from the command below.
+```
+$ kubectl get svc -o wide gateway-external -n openfaas
+```
+
+Now for local setup login, the URL will be the IP/DNS at port 8080 at 127.0.0.1
+
+Use username as admin and to generate password do:
+```
+$ PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+$ echo $PASSWORD
+```
+![alt text](https://github.com/limbuu/serverless-with-openfaas/blob/main/images/login_page.png)
+
+
+`Alternatively, do following to automate this process to use openFaaS through terminal`
+* Log in:
+```
+export OPENFAAS_URL="" # Populate as above
+
+# This command retrieves your password
+PASSWORD=$(kubectl get secret -n openfaas basic-auth -o jsonpath="{.data.basic-auth-password}" | base64 --decode; echo)
+
+# This command logs in and saves a file to ~/.openfaas/config.yml
+echo -n $PASSWORD | faas-cli login --username admin --password-stdin
+
+```
+
+* Check that faas-cli list works:
+```
+$ faas-cli list
 ```
