@@ -181,3 +181,22 @@ Deploy some sample functions and then use them to test things out:
 $ faas-cli deploy -f https://raw.githubusercontent.com/openfaas/faas/master/stack.yml
 ```
 ![alt text](https://github.com/limbuu/serverless-with-openfaas/blob/main/images/test_function.png)
+
+## 6. Monitroing Using Grafana
+
+First, run grafana in `openfaas` kubernetes namespace:
+```
+$ kubectl -n openfaas run --image=stefanprodan/faas-grafana:4.6 --port=3000 grafana
+```
+Second, expose grafana with a nodeport:
+```
+$ kubectl -n openfaas expose pod grafana --type=NodePort --name=grafana
+```
+Run port-forward command to access grafana at `http://127.0.0.1:8000`
+```
+$ kubectl port-forward pod/grafana 8000:3000 -n openfaas
+```
+Now, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at:
+`http://127.0.0.1:8000/dashboard/db/openfaas`
+
+![alt text](https://github.com/limbuu/serverless-with-openfaas/blob/main/images/grafana.png)
