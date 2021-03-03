@@ -199,4 +199,4 @@ $ kubectl port-forward pod/grafana 8000:3000 -n openfaas
 Now, login with username `admin` password `admin` and navigate to the pre-made OpenFaaS dashboard at:
 `http://127.0.0.1:8000/dashboard/db/openfaas`
 
-![alt text](https://github.com/limbuu/serverless-with-openfaas/blob/main/images/grafana.png)
+![alt text](https://github.com/limbuu/serverless-with-openfaas/blob/main/images/grafana.jpeg)
